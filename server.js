@@ -16,6 +16,18 @@ const RoomSchema = {
 
 const Room = mongoose.model('Room', RoomSchema);
 
+const testRoom = new Room(
+  { 
+    name: 'Mongoose 豪華單人房', 
+    price: 3000, 
+    rating: 4.5 
+  }
+);
+
+testRoom.save()
+  .then(() => console.log('insert data success.'))
+  .catch(e => console.warn(e));
+
 const requestListener = (req, res) => {
   console.log('req: ', req.url);
   res.end();
