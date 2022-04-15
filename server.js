@@ -12,12 +12,16 @@ const RoomSchema = new mongoose.Schema(
       type: Number,
       required: [true, '價格必填']
     },
-    rating: Number
+    rating: Number,
+    createAt: {
+      type: Date,
+      default: Date.now,
+      select: false       // 保護欄位不顯示
+    }
   },
   {
     versionKey: false,
     collection: 'roomA',
-    timestamps: true
   }
 )
 
