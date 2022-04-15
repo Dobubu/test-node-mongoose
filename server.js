@@ -16,7 +16,8 @@ const RoomSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
-    collection: 'roomA'
+    collection: 'roomA',
+    timestamps: true
   }
 )
 
