@@ -21,15 +21,15 @@ mongoose.connect('mongodb://localhost:27017/hotel')
 //   .then(() => console.log('insert data success.'))
 //   .catch(e => console.warn(e));
 
-Room.create({ 
-    name: 'Mongoose 豪華單人房 4',
-    price: 3000,
-    rating: 4.5
-  })
-  .then(() => console.log('create data success.'))
-  .catch(e => console.warn(e));
+
 
 const requestListener = async (req, res) => {
+  let body = '';
+
+  req.on('data', chunk => {
+    body += chunk;
+  });
+
   const headers = {
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
     'Access-Control-Allow-Origin': '*',
@@ -47,6 +47,31 @@ const requestListener = async (req, res) => {
     }))
     
     res.end();
+  } else if(req.url === '/rooms' && req.method === 'POST') {
+    req.on('end', async () => {
+      try {
+        const { name, price, rating } = JSON.parse(body);
+        const data = await Room.create({ 
+          name,
+          price,
+          rating
+        });
+
+        res.writeHead(200, headers);
+        res.write(JSON.stringify({
+          'status': 'success',
+          data
+        }));
+        res.end();
+      } catch(e) {
+        res.writeHead(400, headers);
+        res.write(JSON.stringify({
+          'status': 'error',
+          'error': e.message
+        }))
+        res.end();
+      }
+    })
   };
 };
 

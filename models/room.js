@@ -5,7 +5,8 @@ const RoomSchema = new mongoose.Schema(
     name: String,
     price: {
       type: Number,
-      required: [true, '價格必填']
+      required: [true, '價格必填'],
+      cast: false         // 預防不要自動轉型
     },
     rating: Number,
     createAt: {
