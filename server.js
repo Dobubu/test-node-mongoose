@@ -5,20 +5,25 @@ mongoose.connect('mongodb://localhost:27017/hotel')
   .then(() => console.log('db connect success'))
   .catch(e => console.log(e));
 
-const RoomSchema = {
-  name: String,
-  price: {
-    type: Number,
-    required: [true, '價格必填']
+const RoomSchema = new mongoose.Schema(
+  {
+    name: String,
+    price: {
+      type: Number,
+      required: [true, '價格必填']
+    },
+    rating: Number
   },
-  rating: Number
-};
+  {
+    versionKey: false
+  }
+)
 
 const Room = mongoose.model('Room', RoomSchema);
 
 const testRoom = new Room(
   { 
-    name: 'Mongoose 豪華單人房', 
+    name: 'Mongoose 豪華單人房 2', 
     price: 3000, 
     rating: 4.5 
   }
