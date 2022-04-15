@@ -82,6 +82,32 @@ const requestListener = async (req, res) => {
     }));
 
     res.end();
+  } else if(req.url.startsWith('/rooms/') && req.method === 'DELETE') {
+    try {
+      const id = req.url.split('/').pop();
+      const rooms = await Room.find();
+      const isExist = rooms.find(o => o.id === id);
+
+      if(!isExist) throw new Error('room not exist.');
+
+      await Room.findByIdAndDelete(id);
+
+      res.writeHead(200, headers);
+      res.write(JSON.stringify({
+        'status': 'success',
+        'message': 'delete success'
+      }));
+
+      res.end();
+    } catch (e) {
+      res.writeHead(400, headers);
+      res.write(JSON.stringify({
+        'status': 'false',
+        'error': e.message
+      }));
+
+      res.end();
+    }
   } else if(req.method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();
