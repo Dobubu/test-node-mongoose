@@ -1,31 +1,13 @@
 const http = require('http');
 const mongoose = require('mongoose');
 
+const Room = require('./models/room');
+
 mongoose.connect('mongodb://localhost:27017/hotel')
   .then(() => console.log('db connect success'))
   .catch(e => console.log(e));
 
-const RoomSchema = new mongoose.Schema(
-  {
-    name: String,
-    price: {
-      type: Number,
-      required: [true, '價格必填']
-    },
-    rating: Number,
-    createAt: {
-      type: Date,
-      default: Date.now,
-      select: false       // 保護欄位不顯示
-    }
-  },
-  {
-    versionKey: false,
-    collection: 'roomA',
-  }
-)
 
-const Room = mongoose.model('Room', RoomSchema);
 
 // const testRoom = new Room(
 //   { 
@@ -40,7 +22,7 @@ const Room = mongoose.model('Room', RoomSchema);
 //   .catch(e => console.warn(e));
 
 Room.create({ 
-    name: 'Mongoose 豪華單人房 3',
+    name: 'Mongoose 豪華單人房 4',
     price: 3000,
     rating: 4.5
   })
