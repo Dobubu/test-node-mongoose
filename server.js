@@ -27,16 +27,24 @@ const RoomSchema = new mongoose.Schema(
 
 const Room = mongoose.model('Room', RoomSchema);
 
-const testRoom = new Room(
-  { 
-    name: 'Mongoose 豪華單人房 2', 
-    price: 3000, 
-    rating: 4.5 
-  }
-);
+// const testRoom = new Room(
+//   { 
+//     name: 'Mongoose 豪華單人房 2', 
+//     price: 3000, 
+//     rating: 4.5 
+//   }
+// );
 
-testRoom.save()
-  .then(() => console.log('insert data success.'))
+// testRoom.save()
+//   .then(() => console.log('insert data success.'))
+//   .catch(e => console.warn(e));
+
+Room.create({ 
+    name: 'Mongoose 豪華單人房 3',
+    price: 3000,
+    rating: 4.5
+  })
+  .then(() => console.log('create data success.'))
   .catch(e => console.warn(e));
 
 const requestListener = (req, res) => {
