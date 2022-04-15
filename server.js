@@ -72,7 +72,27 @@ const requestListener = async (req, res) => {
         res.end();
       }
     })
-  };
+  } else if(req.url === '/rooms' && req.method === 'DELETE') {
+    const data = await Room.deleteMany({});
+
+    res.writeHead(200, headers);
+    res.write(JSON.stringify({
+      'status': 'success',
+      data    // or data: []，直接回傳空陣列
+    }));
+
+    res.end();
+  } else if(req.method === 'OPTIONS') {
+    res.writeHead(200, headers);
+    res.end();
+  } else {
+    res.writeHead(404, headers);
+    res.write(JSON.stringify({
+      'status': 'false',
+      'message': 'page not found!'
+    }));
+    res.end();
+  };;
 };
 
 const server = http.createServer(requestListener);
