@@ -15,7 +15,8 @@ const RoomSchema = new mongoose.Schema(
     rating: Number
   },
   {
-    versionKey: false
+    versionKey: false,
+    collection: 'roomA'
   }
 )
 
