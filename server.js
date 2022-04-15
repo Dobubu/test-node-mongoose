@@ -108,6 +108,41 @@ const requestListener = async (req, res) => {
 
       res.end();
     }
+  } else if(req.url.startsWith('/rooms/') && req.method === 'PATCH') {
+    req.on('end', async () => {
+      try {
+        const data = JSON.parse(body);
+        const name = data.name;
+        if(!name) throw new Error('name field is require.');
+
+        const id = req.url.split('/').pop();
+        const rooms = await Room.find();
+        const isExist = rooms.find(o => o.id === id);
+        if(!isExist) throw new Error('room not exist.');
+  
+        const updateRoomRes = await Room.findByIdAndUpdate(id, {
+          name: data.name, 
+          price: data.price,
+          rating: data.rating
+        })
+  
+        res.writeHead(200, headers);
+        res.write(JSON.stringify({
+          'status': 'success',
+          'data': updateRoomRes
+        }));
+
+        res.end();
+      } catch (e) {
+        res.writeHead(400, headers);
+        res.write(JSON.stringify({
+          'status': 'false',
+          'error': e.message
+        }));
+
+        res.end();
+      }
+    });
   } else if(req.method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();
